@@ -113,15 +113,17 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 if (mobileConnected && !check.checkifinner(getPsdnIp())) {
-                    if (CheckUtils.haveRoot()) {
-                        CheckUtils.execRootCmdSilent("busybox killall com.android.phone");
-                    } else {
+                    if (BuildConfig.DEBUG) {
                         try {
                             setAirplaneModeOn(getApplicationContext(), true);
                             Thread.sleep(2000);//每一秒输出一次
                             setAirplaneModeOn(getApplicationContext(), false);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
+                        }
+                    } else {
+                        if (CheckUtils.haveRoot()) {
+                            CheckUtils.execRootCmdSilent("busybox killall com.android.phone");
                         }
                     }
                 }
